@@ -10,6 +10,17 @@
 }
 .back:hover { background:#f0f7f2; }
 .headerName { font-family:'Lora',serif; font-size:18px; color:#2d5540; font-weight:500; }
+.context {
+  padding:12px 1rem; background:#f0f7f2; border-bottom:1px solid #e8f4ec;
+  position:sticky; top:50px; z-index:9;
+}
+.contextLabel { font-size:12px; color:#5a7e68; font-weight:600; text-transform:uppercase; margin-bottom:8px; }
+.contextChips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.contextChip {
+  display:inline-block; background:#3d6b4f; color:#fff;
+  padding:4px 10px; border-radius:12px; font-size:11px; font-weight:500;
+}
+.contextNote { font-size:12px; color:#2d5540; font-style:italic; padding-top:6px; border-top:1px solid #e8f4ec; }
 .messages { flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:10px; }
 .empty { text-align:center; font-size:13px; color:#b0c9b8; padding:2rem 0; line-height:1.6; }
 .msgRow { display:flex; }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   collection, addDoc, onSnapshot, query,
-  orderBy, serverTimestamp, doc, setDoc, getDoc,
+  orderBy, serverTimestamp, doc, setDoc, getDoc, where,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -22,21 +22,54 @@ export default function Chat() {
   const [messages, setMessages]   = useState([]);
   const [text, setText]           = useState('');
   const [otherName, setOtherName] = useState('');
+  const [otherFeelings, setOtherFeelings] = useState([]);
+  const [otherNote, setOtherNote] = useState('');
   const bottomRef = useRef(null);
 
   // Determine the other participant's UID
   const otherUid = convId.split('_').find(u => u !== currentUser.uid);
 
-  // Fetch the other user's name
+  // Fetch the other user's name and their signal data
   useEffect(() => {
     if (!otherUid) return;
+    
+    // Get other user's name
     getDoc(doc(db, 'users', otherUid)).then(snap => {
       if (snap.exists()) setOtherName(snap.data().displayName);
     });
-  }, [otherUid]);
+
+    // Get the signal they sent to see their feelings
+    const q = query(
+      collection(db, 'signals'),
+      where('fromUid', '==', otherUid),
+      where('toUid', '==', currentUser.uid)
+    );
+    
+    const unsub = onSnapshot(q, snap => {
+      if (!snap.empty) {
+        const signal = snap.docs[0].data();
+        setOtherFeelings(signal.feelings || []);
+        setOtherNote(signal.note || '');
+      }
+    });
+
+    return unsub;
+  }, [otherUid, currentUser.uid]);
+
+  // Ensure conversation document exists
+  useEffect(() => {
+    if (!convId || !currentUser.uid || !otherUid) return;
+    
+    setDoc(doc(db, 'conversations', convId), {
+      participants: convId.split('_'),
+      createdAt: serverTimestamp(),
+    }, { merge: true });
+  }, [convId, currentUser.uid, otherUid]);
 
   // Real-time messages
   useEffect(() => {
+    if (!convId) return;
+    
     const q = query(
       collection(db, 'conversations', convId, 'messages'),
       orderBy('createdAt', 'asc')
@@ -56,18 +89,24 @@ export default function Chat() {
     if (!text.trim()) return;
     const msgText = text.trim();
     setText('');
-    await addDoc(collection(db, 'conversations', convId, 'messages'), {
-      senderUid: currentUser.uid,
-      senderName: currentUser.displayName,
-      text: msgText,
-      createdAt: serverTimestamp(),
-    });
-    // Update conversation metadata
-    await setDoc(doc(db, 'conversations', convId), {
-      participants: convId.split('_'),
-      lastMessage: msgText,
-      updatedAt: serverTimestamp(),
-    }, { merge: true });
+    
+    try {
+      await addDoc(collection(db, 'conversations', convId, 'messages'), {
+        senderUid: currentUser.uid,
+        senderName: currentUser.displayName,
+        text: msgText,
+        createdAt: serverTimestamp(),
+      });
+      // Update conversation metadata
+      await setDoc(doc(db, 'conversations', convId), {
+        participants: convId.split('_'),
+        lastMessage: msgText,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+    } catch (err) {
+      console.error('Failed to send message:', err);
+      alert('Failed to send message. Please try again.');
+    }
   }
 
   function handleKey(e) {
@@ -80,6 +119,17 @@ export default function Chat() {
         <button className={s.back} onClick={() => navigate(-1)}>←</button>
         <div className={s.headerName}>{otherName || 'Loading…'}</div>
       </div>
+
+      {/* Show what they're going through */}
+      {otherFeelings.length > 0 && (
+        <div className={s.context}>
+          <div className={s.contextLabel}>What they're feeling:</div>
+          <div className={s.contextChips}>
+            {otherFeelings.map(f => <span key={f} className={s.contextChip}>{f}</span>)}
+          </div>
+          {otherNote && <div className={s.contextNote}>"{otherNote}"</div>}
+        </div>
+      )}
 
       <div className={s.messages}>
         {messages.length === 0 && (
