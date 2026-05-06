@@ -2,9 +2,11 @@
 <html>
   <head>
     <script>
+      // Save the attempted URL and redirect to home
       sessionStorage.redirect = location.href;
+      // Use JavaScript redirect instead of meta refresh for reliability
+      window.location.replace('/mindbridge/');
     </script>
-    <meta http-equiv="refresh" content="0;URL='/mindbridge/'">
   </head>
   <body></body>
 </html>
