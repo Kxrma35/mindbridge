@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { Heart, Sparkles } from 'lucide-react';
 import s from './Auth.module.css';
 
 export default function Auth() {
@@ -47,8 +48,12 @@ export default function Auth() {
   return (
     <div className={s.page}>
       <div className={s.top}>
-        <h1 className={s.logo}>MindBridge</h1>
-        <p className={s.tagline}>You don't have to carry it alone.</p>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'10px',marginBottom:'6px'}}>
+          <Heart size={28} color="#9333ea" fill="#e9d5ff" />
+          <h1 className={s.logo}>MindBridge</h1>
+          <Sparkles size={28} color="#ec4899" />
+        </div>
+        <p className={s.tagline}>You matter. Your feelings are valid. We're here for you.</p>
       </div>
 
       <form className={s.form} onSubmit={handleSubmit}>

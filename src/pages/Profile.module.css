@@ -1,58 +1,74 @@
-.page { padding:1.5rem 1rem 2rem; }
-.title { font-family:'Lora',serif; font-size:22px; color:#2d5540; font-weight:500; margin-bottom:1.25rem; }
+.page { padding: 1.5rem 1rem 2rem; }
+.title { font-size: 26px; font-weight: 800; color: #111827; margin-bottom: 1.25rem; }
 .meCard {
-  display:flex; align-items:center; gap:14px;
-  background:#f7fbf8; border:1.5px solid #d5e8dc; border-radius:16px;
-  padding:1rem 1.25rem; margin-bottom:1.5rem;
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, #f3e8ff, #fce7f3);
+  border: 1.5px solid #c084fc; border-radius: 20px;
+  padding: 1.25rem; margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(147,51,234,0.12);
 }
 .meAvatar {
-  width:52px; height:52px; border-radius:50%; background:#c8e6c9;
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px; font-weight:700; color:#2e7d32; flex-shrink:0;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: linear-gradient(135deg, #9333ea, #ec4899);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800; color: #fff; flex-shrink: 0;
 }
-.meName { font-size:16px; font-weight:700; color:#2d5540; }
-.meEmail { font-size:13px; color:#8aaa95; margin-top:2px; }
-.sectionTitle { font-family:'Lora',serif; font-size:15px; color:#3d6b4f; font-weight:500; margin-bottom:4px; }
-.sectionSub { font-size:13px; color:#8aaa95; margin-bottom:1rem; line-height:1.5; }
-.addForm { background:#f7fbf8; border:1.5px solid #d5e8dc; border-radius:16px; padding:1.25rem; }
+.meName { font-size: 17px; font-weight: 800; color: #111827; }
+.meEmail { font-size: 13px; color: #9ca3af; margin-top: 2px; }
+.sectionTitle { font-size: 16px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+.sectionSub { font-size: 13px; color: #9ca3af; margin-bottom: 1rem; line-height: 1.5; }
+.addForm {
+  background: rgba(255,255,255,0.75); border: 1.5px solid #e9d5ff;
+  border-radius: 20px; padding: 1.25rem; backdrop-filter: blur(8px);
+}
 .input {
-  width:100%; padding:12px 14px; border:1.5px solid #d5e8dc; border-radius:12px;
-  font-family:'Nunito',sans-serif; font-size:14px; color:#2d5540;
-  background:#fff; outline:none; margin-bottom:10px; transition:border-color 0.2s;
+  width: 100%; padding: 12px 14px; border: 1.5px solid #e9d5ff; border-radius: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; color: #111827;
+  background: #faf5ff; outline: none; margin-bottom: 10px; transition: all 0.2s;
 }
-.input:focus { border-color:#5a9e78; }
-.error { background:#fdecea; border:1px solid #f5c6cb; border-radius:10px; padding:8px 12px; font-size:13px; color:#c62828; margin-bottom:10px; }
-.success { background:#d4edda; border:1px solid #a5d6a7; border-radius:10px; padding:8px 12px; font-size:13px; color:#2d6b46; font-weight:600; margin-bottom:10px; }
+.input:focus { border-color: #9333ea; box-shadow: 0 0 0 3px rgba(147,51,234,0.1); }
+.error {
+  background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px;
+  padding: 8px 12px; font-size: 13px; color: #dc2626; margin-bottom: 10px;
+}
+.success {
+  background: #f3e8ff; border: 1px solid #c084fc; border-radius: 12px;
+  padding: 8px 12px; font-size: 13px; color: #7c3aed; font-weight: 700; margin-bottom: 10px;
+}
 .addBtn {
-  width:100%; padding:12px; background:#4caf50; border:none; border-radius:12px;
-  font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; color:#fff;
-  cursor:pointer; transition:background 0.2s;
+  width: 100%; padding: 12px;
+  background: linear-gradient(to right, #9333ea, #ec4899);
+  border: none; border-radius: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #fff;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(147,51,234,0.3);
 }
-.addBtn:hover:not(:disabled) { background:#43a047; }
-.addBtn:disabled { opacity:0.45; cursor:not-allowed; }
-.list { display:flex; flex-direction:column; gap:8px; }
+.addBtn:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+.addBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+.list { display: flex; flex-direction: column; gap: 8px; }
 .contactRow {
-  display:flex; align-items:center; gap:12px;
-  background:#f7fbf8; border:1.5px solid #edf5f0;
-  border-radius:14px; padding:12px;
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.75); border: 1.5px solid rgba(147,51,234,0.1);
+  border-radius: 16px; padding: 12px; backdrop-filter: blur(8px);
+  transition: all 0.18s;
 }
+.contactRow:hover { box-shadow: 0 4px 16px rgba(147,51,234,0.1); }
 .contactAvatar {
-  width:40px; height:40px; border-radius:50%; flex-shrink:0;
-  display:flex; align-items:center; justify-content:center;
-  font-size:13px; font-weight:700;
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
 }
-.contactInfo { flex:1; }
-.contactName { font-size:14px; font-weight:700; color:#2d5540; }
-.contactRole { font-size:12px; color:#8aaa95; }
+.contactInfo { flex: 1; }
+.contactName { font-size: 14px; font-weight: 800; color: #111827; }
+.contactRole { font-size: 12px; color: #9ca3af; }
 .removeBtn {
-  background:none; border:none; color:#d5e8dc; font-size:16px;
-  cursor:pointer; padding:4px; transition:color 0.2s;
+  background: none; border: none; color: #e9d5ff; font-size: 16px;
+  cursor: pointer; padding: 4px; transition: color 0.2s;
 }
-.removeBtn:hover { color:#e53935; }
+.removeBtn:hover { color: #dc2626; }
 .logoutBtn {
-  width:100%; padding:12px; background:transparent;
-  border:1.5px solid #d5e8dc; border-radius:12px;
-  font-family:'Nunito',sans-serif; font-size:14px; font-weight:600;
-  color:#8aaa95; cursor:pointer; margin-top:2rem; transition:all 0.2s;
+  width: 100%; padding: 12px; background: transparent;
+  border: 1.5px solid #e9d5ff; border-radius: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  color: #9ca3af; cursor: pointer; margin-top: 2rem; transition: all 0.2s;
 }
-.logoutBtn:hover { border-color:#e57373; color:#c62828; }
+.logoutBtn:hover { border-color: #fca5a5; color: #dc2626; }

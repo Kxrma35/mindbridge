@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   collection, addDoc, onSnapshot, query,
-  orderBy, serverTimestamp, doc, setDoc, getDoc, where,
+  orderBy, serverTimestamp, doc, setDoc, getDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
+import { ArrowLeft, Send } from 'lucide-react';
 import s from './Chat.module.css';
 
 function timeLabel(ts) {
@@ -15,97 +16,73 @@ function timeLabel(ts) {
 }
 
 export default function Chat() {
-  const { id: convId } = useParams(); // uid1_uid2
+  const { id: convId } = useParams();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const [messages, setMessages]   = useState([]);
   const [text, setText]           = useState('');
   const [otherName, setOtherName] = useState('');
-  const [otherFeelings, setOtherFeelings] = useState([]);
-  const [otherNote, setOtherNote] = useState('');
+  const [ready, setReady]         = useState(false);
   const bottomRef = useRef(null);
 
-  // Determine the other participant's UID
   const otherUid = convId.split('_').find(u => u !== currentUser.uid);
 
-  // Fetch the other user's name and their signal data
+  // Fetch other user's name
   useEffect(() => {
     if (!otherUid) return;
-    
-    // Get other user's name
     getDoc(doc(db, 'users', otherUid)).then(snap => {
       if (snap.exists()) setOtherName(snap.data().displayName);
     });
+  }, [otherUid]);
 
-    // Get the signal they sent to see their feelings
-    const q = query(
-      collection(db, 'signals'),
-      where('fromUid', '==', otherUid),
-      where('toUid', '==', currentUser.uid)
-    );
-    
-    const unsub = onSnapshot(q, snap => {
-      if (!snap.empty) {
-        const signal = snap.docs[0].data();
-        setOtherFeelings(signal.feelings || []);
-        setOtherNote(signal.note || '');
-      }
-    });
-
-    return unsub;
-  }, [otherUid, currentUser.uid]);
-
-  // Ensure conversation document exists
+  // Ensure conversation document exists before subscribing to messages
   useEffect(() => {
-    if (!convId || !currentUser.uid || !otherUid) return;
-    
-    setDoc(doc(db, 'conversations', convId), {
-      participants: convId.split('_'),
-      createdAt: serverTimestamp(),
-    }, { merge: true });
-  }, [convId, currentUser.uid, otherUid]);
+    if (!currentUser || !convId) return;
+    const participants = convId.split('_');
+    const convRef = doc(db, 'conversations', convId);
+    setDoc(convRef, { participants, createdAt: serverTimestamp() }, { merge: true })
+      .then(() => setReady(true))
+      .catch(err => { console.error('Conv init error:', err); setReady(true); });
+  }, [convId, currentUser]);
 
-  // Real-time messages
+  // Real-time messages — only subscribe once conversation doc exists
   useEffect(() => {
-    if (!convId) return;
-    
+    if (!ready) return;
     const q = query(
       collection(db, 'conversations', convId, 'messages'),
       orderBy('createdAt', 'asc')
     );
     const unsub = onSnapshot(q, snap => {
       setMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-    });
+    }, err => console.error('Messages error:', err));
     return unsub;
-  }, [convId]);
+  }, [ready, convId]);
 
-  // Auto-scroll to bottom
+  // Auto-scroll
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   async function send() {
-    if (!text.trim()) return;
-    const msgText = text.trim();
+    const trimmed = text.trim();
+    if (!trimmed) return;
     setText('');
-    
     try {
       await addDoc(collection(db, 'conversations', convId, 'messages'), {
-        senderUid: currentUser.uid,
+        senderUid:  currentUser.uid,
         senderName: currentUser.displayName,
-        text: msgText,
-        createdAt: serverTimestamp(),
+        text:       trimmed,
+        createdAt:  serverTimestamp(),
       });
-      // Update conversation metadata
       await setDoc(doc(db, 'conversations', convId), {
-        participants: convId.split('_'),
-        lastMessage: msgText,
-        updatedAt: serverTimestamp(),
+        participants:  convId.split('_'),
+        lastMessage:   trimmed,
+        updatedAt:     serverTimestamp(),
       }, { merge: true });
     } catch (err) {
-      console.error('Failed to send message:', err);
-      alert('Failed to send message. Please try again.');
+      console.error('Send error:', err);
+      alert('Message failed to send. Please check your connection.');
     }
   }
 
@@ -116,23 +93,15 @@ export default function Chat() {
   return (
     <div className={s.page}>
       <div className={s.header}>
-        <button className={s.back} onClick={() => navigate(-1)}>←</button>
+        <button className={s.back} onClick={() => navigate(-1)}>
+          <ArrowLeft size={20} />
+        </button>
         <div className={s.headerName}>{otherName || 'Loading…'}</div>
       </div>
 
-      {/* Show what they're going through */}
-      {otherFeelings.length > 0 && (
-        <div className={s.context}>
-          <div className={s.contextLabel}>What they're feeling:</div>
-          <div className={s.contextChips}>
-            {otherFeelings.map(f => <span key={f} className={s.contextChip}>{f}</span>)}
-          </div>
-          {otherNote && <div className={s.contextNote}>"{otherNote}"</div>}
-        </div>
-      )}
-
       <div className={s.messages}>
-        {messages.length === 0 && (
+        {!ready && <div className={s.empty}>Connecting…</div>}
+        {ready && messages.length === 0 && (
           <div className={s.empty}>
             Start the conversation. Even a simple "I'm here" means everything.
           </div>
@@ -161,7 +130,7 @@ export default function Chat() {
           onKeyDown={handleKey}
         />
         <button className={s.sendBtn} onClick={send} disabled={!text.trim()}>
-          ➤
+          <Send size={18} />
         </button>
       </div>
     </div>

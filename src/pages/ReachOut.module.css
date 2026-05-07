@@ -1,56 +1,74 @@
 .page { padding: 1.5rem 1rem 2rem; }
-.logo { font-family:'Lora',serif; font-size:24px; color:#3d6b4f; font-weight:600; }
-.tagline { font-size:13px; color:#8aaa95; margin-bottom:1.5rem; }
-.sectionTitle { font-family:'Lora',serif; font-size:16px; color:#3d6b4f; font-weight:500; margin-bottom:4px; }
-.sectionSub { font-size:13px; color:#8aaa95; margin-bottom:1rem; line-height:1.5; }
-.loading { font-size:14px; color:#8aaa95; padding:1rem 0; }
+.logoRow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 6px;
+}
+.logo {
+  font-size: 32px; font-weight: 800;
+  background: linear-gradient(to right, #9333ea, #ec4899);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; letter-spacing: -0.5px;
+}
+.tagline { font-size: 14px; color: #6b7280; margin-bottom: 1.75rem; text-align: center; }
+.sectionTitle {
+  font-size: 18px; font-weight: 800; color: #111827;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+}
+.sectionSub { font-size: 13px; color: #9ca3af; margin-bottom: 1rem; line-height: 1.5; }
+.loading { font-size: 14px; color: #9ca3af; padding: 1rem 0; }
 .emptyContacts {
-  background:#f7fbf8; border:1.5px dashed #d5e8dc; border-radius:14px;
-  padding:1.25rem; font-size:13px; color:#7a9e8a; line-height:1.7;
-  margin-bottom:1rem; text-align:center;
+  background: rgba(255,255,255,0.7); border: 1.5px dashed #e9d5ff;
+  border-radius: 16px; padding: 1.25rem; font-size: 13px;
+  color: #9ca3af; line-height: 1.7; margin-bottom: 1rem; text-align: center;
 }
-.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1rem; }
+.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 1rem; }
 .card {
-  border:1.5px solid transparent; border-radius:14px; padding:14px 8px;
-  cursor:pointer; text-align:center; transition:all 0.18s; background:#f7fbf8;
+  border: 1.5px solid transparent; border-radius: 18px; padding: 14px 8px;
+  cursor: pointer; text-align: center; transition: all 0.18s;
+  background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(147,51,234,0.06);
 }
-.card:hover { background:#edf5f0; }
-.cardSelected { border-color:#5a9e78 !important; background:#eaf5ef !important; }
+.card:hover { background: rgba(255,255,255,0.9); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(147,51,234,0.12); }
+.cardSelected { border-color: #9333ea !important; background: rgba(250,245,255,0.95) !important; box-shadow: 0 4px 16px rgba(147,51,234,0.2) !important; }
 .avatar {
-  width:48px; height:48px; border-radius:50%; display:flex;
-  align-items:center; justify-content:center;
-  font-weight:700; font-size:14px; margin:0 auto 8px;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; margin: 0 auto 8px;
 }
-.cardName { font-size:13px; font-weight:700; color:#2d5540; }
-.cardRole { font-size:11px; color:#8aaa95; margin-top:2px; }
+.cardName { font-size: 13px; font-weight: 700; color: #111827; }
+.cardRole { font-size: 11px; color: #9ca3af; margin-top: 2px; }
 .toast {
-  background:#d4edda; border:1px solid #5a9e78; border-radius:12px;
-  padding:12px 16px; font-size:13px; color:#2d6b46; font-weight:600;
-  text-align:center; margin-bottom:0.75rem;
-  animation:fadeIn 0.3s ease;
+  background: linear-gradient(to right, #f3e8ff, #fce7f3);
+  border: 1px solid #c084fc; border-radius: 14px;
+  padding: 12px 16px; font-size: 13px; color: #7c3aed; font-weight: 700;
+  text-align: center; margin-bottom: 0.75rem;
+  animation: fadeIn 0.3s ease;
 }
 @keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
 .helpBtn {
-  width:100%; padding:16px;
-  background:#e8f5e9; border:2px solid #5a9e78; border-radius:14px;
-  font-family:'Nunito',sans-serif; font-size:15px; font-weight:700; color:#2d6b46;
-  cursor:pointer; transition:all 0.2s; margin-bottom:0.75rem;
+  width: 100%; padding: 16px;
+  background: linear-gradient(to right, #9333ea, #ec4899);
+  border: none; border-radius: 16px;
+  font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: #fff;
+  cursor: pointer; transition: all 0.2s; margin-bottom: 0.75rem;
+  box-shadow: 0 4px 15px rgba(147,51,234,0.3);
 }
-.helpBtn:hover:not(:disabled) { background:#c8e6c9; transform:translateY(-1px); }
-.helpBtn:disabled { opacity:0.4; cursor:not-allowed; }
-.divider { border:none; border-top:1px solid #edf5f0; margin:1.25rem 0; }
-.feelingsGrid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:1rem; }
+.helpBtn:hover:not(:disabled) { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(147,51,234,0.35); }
+.helpBtn:disabled { opacity: 0.4; cursor: not-allowed; background: #d1d5db; box-shadow: none; }
+.divider { border: none; border-top: 1px solid rgba(147,51,234,0.1); margin: 1.25rem 0; }
+.feelingsGrid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 1rem; }
 .feeling {
-  border:1.5px solid #d5e8dc; border-radius:12px; padding:12px;
-  cursor:pointer; background:#f7fbf8; transition:all 0.18s;
+  border: 1.5px solid #e9d5ff; border-radius: 14px; padding: 12px;
+  cursor: pointer; background: rgba(255,255,255,0.7); transition: all 0.18s;
+  backdrop-filter: blur(8px);
 }
-.feeling:hover { background:#edf5f0; }
-.feelingSelected { border-color:#5a9e78 !important; background:#eaf5ef !important; }
-.feelingLabel { font-size:13px; font-weight:700; color:#2d5540; }
-.feelingDesc { font-size:11px; color:#8aaa95; margin-top:3px; line-height:1.4; }
+.feeling:hover { background: rgba(255,255,255,0.95); border-color: #c084fc; }
+.feelingSelected { border-color: #9333ea !important; background: #faf5ff !important; }
+.feelingLabel { font-size: 13px; font-weight: 700; color: #111827; }
+.feelingDesc { font-size: 11px; color: #9ca3af; margin-top: 3px; line-height: 1.4; }
 .noteArea {
-  width:100%; padding:12px 14px; border:1.5px solid #d5e8dc; border-radius:12px;
-  font-family:'Nunito',sans-serif; font-size:14px; color:#2d5540;
-  background:#f7fbf8; resize:none; outline:none; transition:border-color 0.2s;
+  width: 100%; padding: 12px 14px; border: 1.5px solid #e9d5ff; border-radius: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; color: #111827;
+  background: rgba(255,255,255,0.7); resize: none; outline: none; transition: all 0.2s;
 }
-.noteArea:focus { border-color:#5a9e78; }
+.noteArea:focus { border-color: #9333ea; box-shadow: 0 0 0 3px rgba(147,51,234,0.1); background: #fff; }

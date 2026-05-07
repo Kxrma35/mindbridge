@@ -5,6 +5,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
+import { Heart, Sparkles, HeartHandshake } from 'lucide-react';
 import s from './ReachOut.module.css';
 
 const FEELINGS = [
@@ -86,10 +87,14 @@ export default function ReachOut() {
 
   return (
     <div className={s.page}>
-      <h1 className={s.logo}>MindBridge</h1>
-      <p className={s.tagline}>You don't have to carry it alone.</p>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'10px',marginBottom:'6px'}}>
+        <Heart size={24} color="#9333ea" fill="#e9d5ff" />
+        <h1 className={s.logo}>MindBridge</h1>
+        <Sparkles size={24} color="#ec4899" />
+      </div>
+      <p className={s.tagline}>You matter. Your feelings are valid. We're here for you.</p>
 
-      <h2 className={s.sectionTitle}>Who do you want to reach?</h2>
+      <h2 className={s.sectionTitle}><HeartHandshake size={20} color="#9333ea" /> Reach Out for Support</h2>
       <p className={s.sectionSub}>Pick someone you trust. They'll get a notification immediately.</p>
 
       {loadingContacts ? (

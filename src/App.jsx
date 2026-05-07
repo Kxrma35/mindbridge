@@ -1,10 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
 import { useAuth } from './contexts/AuthContext';
-import Auth from './pages/Auth';
-const Shell = lazy(() => import('./pages/Shell'));
-
-const LoadingFallback = () => <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Loading...</div>;
+import Auth      from './pages/Auth';
+import Shell     from './pages/Shell';
 
 function RequireAuth({ children }) {
   const { currentUser } = useAuth();
@@ -21,7 +18,7 @@ export default function App() {
       />
       <Route
         path="/*"
-        element={<RequireAuth><Suspense fallback={<LoadingFallback />}><Shell /></Suspense></RequireAuth>}
+        element={<RequireAuth><Shell /></RequireAuth>}
       />
     </Routes>
   );
