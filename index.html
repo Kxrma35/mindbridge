@@ -6,24 +6,32 @@
     <title>MindBridge</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: 'Nunito', sans-serif; background: #f0f7f2; min-height: 100vh; }
-      #root { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #fff; position: relative; }
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #faf5ff 0%, #fdf2f8 50%, #eff6ff 100%);
+        min-height: 100vh;
+      }
+      #root { max-width: 480px; margin: 0 auto; min-height: 100vh; background: transparent; position: relative; }
     </style>
     <script>
-  var redirect = sessionStorage.redirect;
-  delete sessionStorage.redirect;
-  if (redirect && redirect !== location.href) {
-    history.replaceState(null, null, redirect);
-  }
-</script>
-    <script type="module" crossorigin src="/mindbridge/assets/index-B2EsDKd8.js"></script>
-    <link rel="stylesheet" crossorigin href="/mindbridge/assets/index-JscssdCs.css">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+    <script type="module" crossorigin src="/mindbridge/assets/index-DMCsttV3.js"></script>
+    <link rel="stylesheet" crossorigin href="/mindbridge/assets/index-FlHpQmCg.css">
   </head>
   <body>
     <div id="root"></div>
-
   </body>
 </html>
